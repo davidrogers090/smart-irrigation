@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		<tomcatWebapps>C:\Program Files\Apache Software Foundation\Tomcat 9.0\webapps\</tomcatWebapps>
+		
 	</properties>
 
 	<dependencies>
@@ -62,17 +62,31 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 			</plugin>
-
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-war-plugin</artifactId>
-				<configuration>
-					<outputDirectory>${tomcatWebapps}</outputDirectory>
-				</configuration>
-			</plugin>
 		</plugins>
 
 	</build>
+
+	<profiles>
+	
+		<!-- This profile will automatically deploy the completed war into the 
+		tomcat webapps directory after the build completes use 'mvn clean package'.
+		Activate the profile in your settings.xml -->
+		<profile>
+			<id>tomcatConfig</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>org.apache.maven.plugins</groupId>
+						<artifactId>maven-war-plugin</artifactId>
+						<configuration>
+							<outputDirectory>${webappsDir}</outputDirectory> <!-- Set this in your settings.xml for the tomcatConfig profile -->
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		
+	</profiles>
 
 	<repositories>
 		<repository>
