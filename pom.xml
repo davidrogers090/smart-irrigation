@@ -16,7 +16,7 @@
 	</parent>
 
 	<properties>
-		
+
 	</properties>
 
 	<dependencies>
@@ -31,6 +31,13 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
 			<scope>provided</scope>
+		</dependency>
+
+		<!-- Raspberry pi -->
+		<dependency>
+			<groupId>com.pi4j</groupId>
+			<artifactId>pi4j-core</artifactId>
+			<version>1.1</version>
 		</dependency>
 
 		<!-- Test -->
@@ -67,10 +74,10 @@
 	</build>
 
 	<profiles>
-	
+
 		<!-- This profile will automatically deploy the completed war into the 
-		tomcat webapps directory after the build completes use 'mvn clean package'.
-		Activate the profile in your settings.xml -->
+			tomcat webapps directory after the build completes use 'mvn clean package'. 
+			Activate the profile in your settings.xml -->
 		<profile>
 			<id>tomcatConfig</id>
 			<build>
@@ -85,7 +92,7 @@
 				</plugins>
 			</build>
 		</profile>
-		
+
 	</profiles>
 
 	<repositories>
