@@ -1,5 +1,6 @@
 package com.david.raspberrypi.irrigation.gpio;
 
+
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -12,6 +13,7 @@ public final class GpioUtil {
 	private static final GpioPinDigitalOutput[] pins = new GpioPinDigitalOutput[RaspiPin.allPins().length];
 	public static final int MAX_ZONES = pins.length;
 	
+	private GpioUtil(){}
 	
 	private static GpioPinDigitalOutput getPin(int pin){
 		

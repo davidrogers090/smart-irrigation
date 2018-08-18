@@ -64,6 +64,7 @@ public class ActivityManager {
 	
 	public void queueProgram(Program program){
 		
+		
 		LOGGER.debug("Starting program: " + program);
 		executorService.execute(new UpdateActiveProgram(program));
 		for (IrrigationZone zone : program.getZones()){

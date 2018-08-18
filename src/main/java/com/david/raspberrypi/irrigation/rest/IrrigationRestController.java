@@ -23,4 +23,8 @@ public class IrrigationRestController {
           .collect(Collectors.toList());
     }
 	
+	@GetMapping("/demo")
+    public String demo() {
+        return "This is definitely a good demo.";
+    }
 }
