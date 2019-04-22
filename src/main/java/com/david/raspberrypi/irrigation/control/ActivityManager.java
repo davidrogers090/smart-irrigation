@@ -4,12 +4,21 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.jboss.logging.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.stereotype.Component;
 
-import com.david.raspberrypi.irrigation.control.commands.*;
+import com.david.raspberrypi.irrigation.control.commands.Activate;
+import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
+import com.david.raspberrypi.irrigation.persistence.domain.Program;
 
+@Component
 public class ActivityManager {
 
 	private static final Logger LOGGER = Logger.getLogger(ActivityManager.class);
+	
+	@Autowired
+	private SimpMessagingTemplate messageSender;
 	
 	/**
 	 * The currently active irrigation zone. null implies nothing is active
@@ -31,15 +40,17 @@ public class ActivityManager {
 	 * @author David
 	 *
 	 */
-	private class UpdateActiveZone implements Runnable {
-		private IrrigationZone zone;
-		public UpdateActiveZone(IrrigationZone zone){
-			this.zone = zone;
+	private class ActivateImpl extends Activate {
+
+		public ActivateImpl(IrrigationZone zone, int duration) {
+			super(zone, duration);
 		}
-		
+
 		@Override
-		public void run() {
+		public void onUpdate(IrrigationZone zone) {
 			activeZone = zone;
+			if (zone == null) zone = new IrrigationZone(-1, "None", -1);
+			messageSender.convertAndSend("/active/zone", zone);
 		}
 		
 	}
@@ -87,27 +98,15 @@ public class ActivityManager {
 			duration = durationOverride;
 		}
 		
-		executorService.execute(new Activate(zone));
-		executorService.execute(new UpdateActiveZone(zone));
-		executorService.execute(new Wait(duration));
-		executorService.execute(new Deactivate(zone));
-		executorService.execute(new UpdateActiveZone(null));
+		executorService.execute(new ActivateImpl(zone, duration));
 	}
 
 	public IrrigationZone getActiveZone() {
 		return activeZone;
 	}
 
-	public void setActiveZone(IrrigationZone activeZone) {
-		this.activeZone = activeZone;
-	}
-
 	public Program getActiveProgram() {
 		return activeProgram;
-	}
-
-	public void setActiveProgram(Program activeProgram) {
-		this.activeProgram = activeProgram;
 	}
 
 

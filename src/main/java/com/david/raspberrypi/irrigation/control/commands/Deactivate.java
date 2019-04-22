@@ -2,8 +2,8 @@ package com.david.raspberrypi.irrigation.control.commands;
 
 import org.jboss.logging.Logger;
 
-import com.david.raspberrypi.irrigation.control.IrrigationZone;
 import com.david.raspberrypi.irrigation.gpio.GpioUtil;
+import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
 
 public class Deactivate implements Runnable {
 
@@ -18,7 +18,7 @@ public class Deactivate implements Runnable {
 	@Override
 	public void run() {
 		LOGGER.info("Deactivating irrigation zone: " + zone.getName()); 
-		GpioUtil.deactivate(zone.getPinId());
+		//GpioUtil.deactivate(zone.getPinId());
 	}
 
 }
