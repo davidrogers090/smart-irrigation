@@ -22,14 +22,14 @@ public abstract class Activate implements Runnable {
 	public void run() {
 		LOGGER.info("Activating irrigation zone: " + zone.getName()); 
 		onUpdate(zone);
-		//GpioUtil.activate(zone.getPinId());
+		GpioUtil.activate(zone.getPinId());
 		try {
 			Thread.sleep(MILLIS_PER_MINUTE * duration);
 		} catch (InterruptedException e) {
 			LOGGER.error("Unable to finish waiting", e); 
 		} finally {
 			onUpdate(null);
-			//GpioUtil.deactivate(zone.getPinId());
+			GpioUtil.deactivate(zone.getPinId());
 		}
 	}
 	

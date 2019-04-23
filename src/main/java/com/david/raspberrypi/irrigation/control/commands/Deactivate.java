@@ -5,6 +5,7 @@ import org.jboss.logging.Logger;
 import com.david.raspberrypi.irrigation.gpio.GpioUtil;
 import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
 
+@Deprecated
 public class Deactivate implements Runnable {
 
 	private static final Logger LOGGER = Logger.getLogger(Deactivate.class);
