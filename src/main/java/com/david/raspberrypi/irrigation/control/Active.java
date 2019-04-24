@@ -2,17 +2,24 @@ package com.david.raspberrypi.irrigation.control;
 
 import java.time.Instant;
 
-import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
+public class Active<V> {
 
-public class ActiveZone extends IrrigationZone {
-
+	private V activatable;
 	private Instant finishTime;
-
-	public ActiveZone(int pinId, String name, int duration, Instant finishTime) {
-		super(pinId, name, duration);
+	
+	public Active(V activatable, Instant finishTime) {
+		this.activatable = activatable;
 		this.finishTime = finishTime;
 	}
 	
+	public V getZone() {
+		return activatable;
+	}
+
+	public void setZone(V zone) {
+		this.activatable = zone;
+	}
+
 	/**
 	 * @return the finishTime
 	 */

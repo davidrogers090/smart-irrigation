@@ -24,8 +24,11 @@ public class Program {
 	
 	private String name;
 	
-	public Program(String name) {
+	public Program(int id, String name, List<IrrigationZone> zones, Integer durationOverride) {
+		this.id = id;
 		this.name = name;
+		this.zones = zones;
+		this.durationOverride = durationOverride;
 	}
 	
 	public Program() {

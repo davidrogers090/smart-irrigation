@@ -1,3 +1,5 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <html>
 <head>
 <link rel="shortcut icon" href="/smart-irrigation/favicon.ico" type="image/x-icon" />
@@ -6,10 +8,10 @@
   type="text/javascript"></script>
 <script src="/smart-irrigation/webjars/stomp-websocket/stomp.min.js"
   type="text/javascript"></script>
-<script src="/smart-irrigation/app.js" type="text/javascript"></script>
 <script src="/smart-irrigation/templates.js" type="text/javascript"></script>
 <script src="/smart-irrigation/webjars/jquery/3.1.0/jquery.min.js"
   type="text/javascript"></script>
+<script src="/smart-irrigation/app.js" type="text/javascript"></script>
 <script type="text/javascript">
 	
 	
@@ -26,9 +28,9 @@
   <div class="maincontainer">
     <!-- Tab links -->
     <div class="tab">
-      <button class="tablinks" onclick="changeView(event, 'Status')">Status</button>
-      <button class="tablinks" onclick="changeView(event, 'Programs')">Programs</button>
-      <button class="tablinks" onclick="changeView(event, 'Zones')">Zones</button>
+      <button id="Status" class="tablinks active" onclick="changeView(event, 'Status')">Status</button>
+      <button id="Programs" class="tablinks" onclick="changeView(event, 'Programs')">Programs</button>
+      <button id="Zones" class="tablinks" onclick="changeView(event, 'Zones')">Zones</button>
     </div>
 
     <!-- Tab content 
@@ -68,26 +70,21 @@
 
   </div>
   <script type="text/javascript">
-  	var programRunning = false;
-  	var zones = [
-		{pinId: 1, active: false},
-		{pinId: 2, active: false},
-		{pinId: 3, active: false},
-		{pinId: 4, active: true},
-		{pinId: 5, active: false},
-		{pinId: 6, active: false},
-		{pinId: 7, active: false},
-		{pinId: 8, active: false},
-		{pinId: 9, active: false},
-	];
-	renderZones(zones);
-	renderZoneStatus("#zonestatuslist", zones);
-	if (programRunning) {
-		//render program
-	}
-	else {
-		renderZoneStatus("#dynamicstatus", zones);
-	}
+//   	var programRunning = false;
+//   	var zones = [
+// 		{pinId: 1, active: false},
+// 		{pinId: 2, active: false},
+// 		{pinId: 3, active: false},
+// 		{pinId: 4, active: true},
+// 		{pinId: 5, active: false},
+// 		{pinId: 6, active: false},
+// 		{pinId: 7, active: false},
+// 		{pinId: 8, active: false},
+// 		{pinId: 9, active: false},
+// 	];
+	//renderZones(zones);
+// 	renderZoneStatus("#zonestatuslist", zones);
+
   </script>
 </body>
 </html>

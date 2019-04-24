@@ -11,7 +11,7 @@ public abstract class Activate implements Runnable {
 	private static final long MILLIS_PER_MINUTE = 60000;
 	
 	private IrrigationZone zone;
-	private int duration;
+	protected int duration;
 	
 	public Activate(IrrigationZone zone, int duration){
 		this.zone = zone;

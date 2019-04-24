@@ -1,6 +1,7 @@
 package com.david.raspberrypi.irrigation.rest;
 
 import java.util.Collection;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
@@ -13,10 +14,19 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.david.raspberrypi.irrigation.control.ActivityManager;
 import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
+import com.david.raspberrypi.irrigation.persistence.domain.Program;
+import com.david.raspberrypi.irrigation.persistence.repository.ProgramRepository;
+import com.david.raspberrypi.irrigation.persistence.repository.ZoneRepository;
 
 @RestController
 @RequestMapping("/rest")
 public class IrrigationRestController {
+
+	@Autowired
+	private ZoneRepository zoneRepo;
+	
+	@Autowired
+	private ProgramRepository programRepo;
 	
 	@Autowired
 	private ActivityManager am;
@@ -54,7 +64,12 @@ public class IrrigationRestController {
 	}
 	
 	@GetMapping("/zone")
-	public IrrigationZone getAllZones(){
-		return null;
+	public List<IrrigationZone> getAllZones(){
+		return zoneRepo.findAll();
+	}
+	
+	@GetMapping("/program")
+	public List<Program> getAllPrograms(){
+		return programRepo.findAll();
 	}
 }
