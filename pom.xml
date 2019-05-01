@@ -39,6 +39,11 @@
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
 
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-quartz</artifactId>
+		</dependency>
+
 		<!-- Tomcat -->
 		<dependency>
 			<groupId>org.apache.tomcat.embed</groupId>
@@ -57,7 +62,7 @@
 			<groupId>javax.servlet</groupId>
 			<artifactId>jstl</artifactId>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-websocket</artifactId>
@@ -99,6 +104,17 @@
 			<groupId>org.webjars</groupId>
 			<artifactId>jquery</artifactId>
 			<version>3.1.0</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.webjars.bower/jquery-cron -->
+		<dependency>
+			<groupId>org.webjars.bower</groupId>
+			<artifactId>jquery-cron</artifactId>
+			<version>0.1.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>font-awesome</artifactId>
+			<version>5.8.1</version>
 		</dependency>
 
 		<!-- Test -->

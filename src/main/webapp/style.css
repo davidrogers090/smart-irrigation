@@ -156,3 +156,17 @@ input:checked + .slider:before {
 .hidden {
 	display: none;
 }
+
+.addButton {
+	background-color: #2196f3;
+	border-color: #2196f3;
+	border-radius: 35%;
+	width: 40px;
+	height: 38px;
+	color: white;
+}
+
+.addButton:hover {
+	background-color: #1977c1;
+	border-color: #1977c1;
+}

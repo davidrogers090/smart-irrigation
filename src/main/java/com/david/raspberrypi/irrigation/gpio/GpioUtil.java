@@ -3,14 +3,11 @@ package com.david.raspberrypi.irrigation.gpio;
 
 import org.jboss.logging.Logger;
 
-import com.pi4j.io.gpio.BananaPiPin;
-import com.pi4j.io.gpio.BananaProPin;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinProvider;
 import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
 
 public final class GpioUtil {
 
@@ -20,7 +17,7 @@ public final class GpioUtil {
 	private static GpioPinDigitalOutput[] pins = null; // = new GpioPinDigitalOutput[RaspiPin.allPins().length];
 	public static int MAX_ZONES = -1; // = pins.length;
 
-	public static boolean enabled = true;
+	private static boolean enabled = true;
 
 	static {
 
@@ -40,7 +37,7 @@ public final class GpioUtil {
 	private static GpioPinDigitalOutput getPin(int pin){
 		// provision pin if it isn't already
 		if (pins[pin] == null){
-			pins[pin] = GPIO.provisionDigitalOutputPin(RaspiPin.getPinByAddress(pin),PinState.LOW);
+			pins[pin] = GPIO.provisionDigitalOutputPin(PinProvider.getPinByAddress(pin),PinState.LOW);
 		}
 
 		return pins[pin];

@@ -2,7 +2,9 @@ package com.david.raspberrypi.irrigation.control;
 
 import java.time.Instant;
 
-public class Active<V> {
+import com.david.raspberrypi.irrigation.control.schedule.Schedulable;
+
+public class Active<V extends Schedulable> {
 
 	private V activatable;
 	private Instant finishTime;

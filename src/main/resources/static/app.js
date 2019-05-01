@@ -30,15 +30,10 @@ function showActiveZone(message) {
 	$("#activeZone").text(message);
 }
 
-function myFunction() {
-	$.get("http://localhost:8080/smart-irrigation/rest/demo",
-			function(data) {
-		$('#demo').html(data);
-	});
-}
+
 function activate(pinId) {
 	$.ajax({
-		url: "http://localhost:8080/smart-irrigation/rest/zone/active/" + pinId,
+		url: "rest/zone/active/" + pinId,
 		type: 'PUT',
 		success: function(data) {
 		}
@@ -59,7 +54,7 @@ function updateZoneStatus(activeZone){
 	let timeleft = "--:--:--";
 
 	if (zone != null){
-		zone.pinId == -1 ? activePinId = "None" : activePinId = zone.pinId;
+		zone.id == -1 ? activePinId = "None" : activePinId = zone.id;
 		activeName = zone.name;
 	}
 	if (activeZone.finishTime != null){
@@ -104,7 +99,7 @@ function countdownZoneTime() {
 
 function getActive() {
 
-	$.get("http://localhost:8080/smart-irrigation/rest/zone",
+	$.get("rest/zone/active",
 			function(data) {
 		updateZoneStatus(data);
 
@@ -115,7 +110,7 @@ function getActive() {
 
 function initZones() {
 
-	$.get("http://localhost:8080/smart-irrigation/rest/zone",
+	$.get("rest/zone",
 			function(data) {
 		renderZones(data);
 		renderZoneStatus("#zonestatuslist", data);
@@ -166,6 +161,16 @@ function changeView(event, view) {
 	// Show the current tab, and add an "active" class to the button that opened the tab
 	document.getElementById(view).style.display = "block";
 	event.currentTarget.className += " active";
+}
+
+function handleSlider(checkbox, pinId) {
+	$.post("rest/zone/enable/" + pinId + "/?enabled=" + checkbox.checked,
+			function(data) {
+		updateZoneStatus(data);
+
+
+
+	});
 }
 
 initZones();

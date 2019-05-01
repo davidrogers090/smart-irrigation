@@ -2,16 +2,11 @@ package com.david.raspberrypi.irrigation.control;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.time.temporal.TemporalUnit;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-
 import org.jboss.logging.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Component;
 
-import com.david.raspberrypi.irrigation.control.commands.Activate;
 import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
 import com.david.raspberrypi.irrigation.persistence.domain.Program;
 
@@ -33,106 +28,6 @@ public class ActivityManager {
 	 */
 	private Program activeProgram = null;
 
-	/**
-	 * The executor that ensures that only one zone can be active at a time
-	 */
-	private ExecutorService executorService = Executors.newSingleThreadExecutor();
-
-	/**
-	 * Inner class to asynchronously update the activeZone variable
-	 * @author David
-	 *
-	 */
-	private class ActivateImpl extends Activate {
-
-		public ActivateImpl(IrrigationZone zone, int duration) {
-			super(zone, duration);
-		}
-
-		@Override
-		public void onUpdate(IrrigationZone zone) {
-			activeZone = zone;
-			
-			Instant completion = null;
-			if (zone != null) {
-				completion = Instant.now().plus(Duration.ofMinutes(this.duration));
-			}
-			Active<IrrigationZone> active = new Active<>(zone, completion);
-			//			if (zone == null) zone = new IrrigationZone(-1, "None", -1);
-
-			messageSender.convertAndSend("/active/zone", active);
-		}
-
-	}
-
-	/**
-	 * Inner class to asynchronously update the activeProgram variable
-	 * @author David
-	 *
-	 */
-	private class UpdateActiveProgram implements Runnable {
-		private Program program;
-		public UpdateActiveProgram(Program program){
-			this.program = program;
-		}
-
-		@Override
-		public void run() {
-			activeProgram = program;
-			//			if (program == null) program = new ActiveProgram(-1, "None", null, -1, null);
-
-			int minutes = 0;
-			
-			if (program != null && program.getZones() != null) {
-				if (program.getDurationOverride() != null) {
-					//If the duration override is set, do simple math
-					minutes = program.getDurationOverride() * program.getZones().size();
-				}
-				else {
-					//Otherwise, add the durations
-					for (IrrigationZone zone : program.getZones()) {
-						minutes += zone.getDuration();
-					}
-				}
-			}
-			
-
-			Active<Program> active = new Active<>(program, Instant.now().plus(Duration.ofMinutes(minutes)));
-			messageSender.convertAndSend("/active/program", active);
-		}
-
-
-
-	}
-
-	public void queueProgram(Program program){
-
-
-		LOGGER.debug("Starting program: " + program);
-		executorService.execute(new UpdateActiveProgram(program));
-		for (IrrigationZone zone : program.getZones()){
-			queueZone(zone, program.getDurationOverride());
-		}
-		executorService.execute(new UpdateActiveProgram(null));
-	}
-
-
-	/**
-	 * Enters a zone into the activation queue.  Ensures that only one zone
-	 * is active at once.
-	 * @param zone the irrigation zone to activate
-	 * @param durationOverride the duration to use or null to use defaults
-	 */
-	public void queueZone(IrrigationZone zone, Integer durationOverride){
-
-		int duration = zone.getDuration();
-		if (durationOverride != null){
-			duration = durationOverride;
-		}
-
-		executorService.execute(new ActivateImpl(zone, duration));
-	}
-
 	public IrrigationZone getActiveZone() {
 		return activeZone;
 	}
@@ -141,5 +36,40 @@ public class ActivityManager {
 		return activeProgram;
 	}
 
+	public void setActiveZone(IrrigationZone zone, Integer duration) {
+		activeZone = zone;
+		
+		Instant completion = null;
+		if (zone != null) {
+			completion = Instant.now().plus(Duration.ofMinutes(duration));
+		}
+		Active<IrrigationZone> active = new Active<>(zone, completion);
+		//			if (zone == null) zone = new IrrigationZone(-1, "None", -1);
+
+		messageSender.convertAndSend("/active/zone", active);
+	}
+
+	public void setActiveProgram(Program program) {
+		activeProgram = program;
+
+		int minutes = 0;
+		
+		if (program != null && program.getZones() != null) {
+			if (program.getDurationOverride() != null) {
+				//If the duration override is set, do multiplication to estimate completion time
+				minutes = program.getDurationOverride() * program.getZones().size();
+			}
+			else {
+				//Otherwise, use addition
+				for (IrrigationZone zone : program.getZones()) {
+					minutes += zone.getDuration();
+				}
+			}
+		}
+		
+
+		Active<Program> active = new Active<>(program, Instant.now().plus(Duration.ofMinutes(minutes)));
+		messageSender.convertAndSend("/active/program", active);
+	}
 
 }

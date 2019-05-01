@@ -6,10 +6,15 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 //import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.quartz.JobKey;
+
+import com.david.raspberrypi.irrigation.control.schedule.Schedulable;
 
 @Entity
 //@Table(name="program", schema="irrigation")
-public class Program {
+public class Program implements Schedulable{
 
 	@Id
 	private int id;
@@ -71,5 +76,11 @@ public class Program {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	@Transient // Do not persist this value
+	public Type getType() {
+		return Type.PROGRAM;
 	}
 }

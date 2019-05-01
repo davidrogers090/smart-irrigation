@@ -11,6 +11,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class HomeController {
 
+	/**
+	 * Maps the root context to return index.jsp.  Attempts to server-push some rest calls,
+	 * but I don't know if it works this way.  Either way
+	 * @param model
+	 * @param pushBuilder
+	 * @return
+	 */
 	@GetMapping
 	public String home(Model model, PushBuilder pushBuilder) {
 		if (pushBuilder != null) {

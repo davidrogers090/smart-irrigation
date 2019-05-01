@@ -1,5 +1,5 @@
 
-insert into irrigation_zone (pin_id, name, duration)
+insert into irrigation_zone (id, name, duration)
 values
 	(1, 'testZone1', 1),
 	(2, 'testZone2', 1),

@@ -4,6 +4,7 @@
 <head>
 <link rel="shortcut icon" href="/smart-irrigation/favicon.ico" type="image/x-icon" />
 <link rel="stylesheet" href="/smart-irrigation/style.css" />
+<link rel="stylesheet" href="/smart-irrigation/webjars/font-awesome/css/all.min.css" />
 <script src="/smart-irrigation/webjars/sockjs-client/sockjs.min.js"
   type="text/javascript"></script>
 <script src="/smart-irrigation/webjars/stomp-websocket/stomp.min.js"
@@ -59,7 +60,12 @@
 		</fieldset>
 	</div>
 	
-	<div id="zonediv" class="Zones content hidden"></div>
+	<div class="Zones content hidden">
+		<div id="zonediv"></div>
+		<button class="addButton">
+			<i class="fas fa-plus fa-2x"></i>
+		</button>
+	</div>
 	
 	<div class="Status content">
 		<fieldset id="notificationsFieldset">
