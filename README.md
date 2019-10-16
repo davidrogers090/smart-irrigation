@@ -1,5 +1,5 @@
 # smart-irrigation
-A smart irrigation system that allows for irrigation control via REST.  A simple WebApp will be provided.
+A smart irrigation system that allows for irrigation control via REST.  A simple WebApp will be provided. NOTE: This project is not complete. Use Postman or other testing tools to access the backend.
 
 # Development tools
 Tomcat 9  
@@ -38,4 +38,12 @@ Option 3 - Deploy to existing tomcat: The pom.xml has a profile configured to au
 </settings>
 ```
 To deploy to the configured tomcat server, run the following command: `mvn clean package -P tomcatConfig`
+
+# Technology Stack
+The following technologies are used:
+* Spring-boot
+* H2 in-memory sql database
+* JPA
+* Quartz scheduler
+* JavaScript
 
