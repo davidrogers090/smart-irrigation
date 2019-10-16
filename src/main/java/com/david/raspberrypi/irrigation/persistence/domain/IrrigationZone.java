@@ -4,16 +4,12 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Transient;
-//import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
-
-import org.quartz.JobKey;
 
 import com.david.raspberrypi.irrigation.control.schedule.Schedulable;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @Entity
-//@Table(name="irrigationZone", schema="irrigation")
 @JsonIgnoreProperties({"hibernateLazyInitializer", "handler"}) //Need this to prevent some issues while sending to the client
 public class IrrigationZone implements Schedulable {
 

@@ -15,6 +15,13 @@ import com.david.raspberrypi.irrigation.control.schedule.Schedulable;
 import com.david.raspberrypi.irrigation.control.schedule.ScheduleManager;
 import com.david.raspberrypi.irrigation.rest.dto.Schedule;
 
+/**
+ * Abstract rest controller for use with {@link Schedulable} entities.
+ * Extend this class to inherit schedule and activation operations.
+ * @author David
+ *
+ * @param <T>
+ */
 public abstract class GenericRestController<T extends Schedulable> {
 
 	@Autowired
@@ -44,7 +51,6 @@ public abstract class GenericRestController<T extends Schedulable> {
 		}
 		
 		scheduleManager.once(entity.get(), minutes.orElse(null));
-
 		
 		return ResponseEntity.ok().build();
 	}

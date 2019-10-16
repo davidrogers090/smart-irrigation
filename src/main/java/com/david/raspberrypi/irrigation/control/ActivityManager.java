@@ -44,7 +44,6 @@ public class ActivityManager {
 			completion = Instant.now().plus(Duration.ofMinutes(duration));
 		}
 		Active<IrrigationZone> active = new Active<>(zone, completion);
-		//			if (zone == null) zone = new IrrigationZone(-1, "None", -1);
 
 		messageSender.convertAndSend("/active/zone", active);
 	}
@@ -67,7 +66,6 @@ public class ActivityManager {
 			}
 		}
 		
-
 		Active<Program> active = new Active<>(program, Instant.now().plus(Duration.ofMinutes(minutes)));
 		messageSender.convertAndSend("/active/program", active);
 	}

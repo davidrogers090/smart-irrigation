@@ -11,14 +11,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.david.raspberrypi.irrigation.control.ActivityManager;
-import com.david.raspberrypi.irrigation.gpio.GpioUtil;
 import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
 import com.david.raspberrypi.irrigation.persistence.domain.Program;
 import com.david.raspberrypi.irrigation.persistence.repository.ProgramRepository;
-import com.david.raspberrypi.irrigation.persistence.repository.ZoneRepository;
 
 @Component
-@DisallowConcurrentExecution
+@DisallowConcurrentExecution // It doesn't make sense to have more than one program active at once
 public class ActivateProgram implements Job {
 
 	private static final Logger LOGGER = Logger.getLogger(ActivateProgram.class);
@@ -32,11 +30,8 @@ public class ActivateProgram implements Job {
 	@Override
 	public void execute(JobExecutionContext context) throws JobExecutionException {
 		Integer id = (Integer) context.get("id");
-		
 		Optional<Program> optional = pr.findById(id);
-		
 		Program program = optional.orElseThrow(() -> new JobExecutionException("Program by id: " + id + " does not exist"));
-		
 		executeProgram(program);
 	}
 	

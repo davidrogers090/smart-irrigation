@@ -15,7 +15,7 @@ import com.david.raspberrypi.irrigation.persistence.domain.IrrigationZone;
 import com.david.raspberrypi.irrigation.persistence.repository.ZoneRepository;
 
 @Component
-@DisallowConcurrentExecution
+@DisallowConcurrentExecution // We only want one zone active at a time to prevent water pressure issues
 public class ActivateZone implements Job {
 
 	private static final Logger LOGGER = Logger.getLogger(ActivateZone.class);

@@ -5,15 +5,11 @@ import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
-//import javax.persistence.Table;
 import javax.persistence.Transient;
-
-import org.quartz.JobKey;
 
 import com.david.raspberrypi.irrigation.control.schedule.Schedulable;
 
 @Entity
-//@Table(name="program", schema="irrigation")
 public class Program implements Schedulable{
 
 	@Id
@@ -36,9 +32,7 @@ public class Program implements Schedulable{
 		this.durationOverride = durationOverride;
 	}
 	
-	public Program() {
-		
-	}
+	public Program() { }
 
 	/**
 	 * @return the id

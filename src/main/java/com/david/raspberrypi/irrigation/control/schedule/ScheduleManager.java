@@ -2,15 +2,11 @@ package com.david.raspberrypi.irrigation.control.schedule;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import org.quartz.CronScheduleBuilder;
 import org.quartz.CronTrigger;
-import org.quartz.Job;
-import org.quartz.JobBuilder;
 import org.quartz.JobDataMap;
-import org.quartz.JobDetail;
 import org.quartz.JobKey;
 import org.quartz.Scheduler;
 import org.quartz.SchedulerException;
@@ -21,8 +17,6 @@ import org.quartz.impl.matchers.GroupMatcher;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.david.raspberrypi.irrigation.control.job.ActivateProgram;
-import com.david.raspberrypi.irrigation.control.job.ActivateZone;
 import com.david.raspberrypi.irrigation.rest.dto.Schedule;
 
 @Component
@@ -53,7 +47,6 @@ public class ScheduleManager {
                 .withSchedule(scheduleBuilder)
                 .build();
         
-        
         scheduler.scheduleJob(trigger);
 	}
 	
@@ -61,28 +54,13 @@ public class ScheduleManager {
 		scheduler.unscheduleJob(generateTriggerKey(schedulable));
 	}
 	
-//	public void addJob(Schedulable schedulable) throws SchedulerException {
-//		
-//		JobKey jobKey = generateJobKey(schedulable);
-//		if (!scheduler.checkExists(jobKey)) {
-//			Class<? extends Job> jobType = getJobType(schedulable.getType());
-//	        
-//	        JobDetail jobDetail = JobBuilder.newJob(jobType)
-//	        		.withIdentity(jobKey)
-//	                .build();
-//			scheduler.addJob(jobDetail, false);
-//		}
-//	}
-	
 	/**
 	 * Runs the job once, as soon as possible.
 	 * @param schedulable
 	 * @throws SchedulerException
 	 */
 	public void once(Schedulable schedulable, Integer durationOverride) throws SchedulerException {
-		
 		JobDataMap data = generateJobData(schedulable, durationOverride);
-		
 		scheduler.triggerJob(generateJobKey(schedulable), data);
 	}
 	
@@ -93,23 +71,9 @@ public class ScheduleManager {
 	 * @throws SchedulerException
 	 */
 	public List<Schedule<Integer>> getScheduled(Schedulable.Type type) throws SchedulerException {
-		
 		Set<TriggerKey> keys = scheduler.getTriggerKeys(GroupMatcher.triggerGroupEquals(type.toString()));
-		
 		return getSchedule(keys);
 	}
-	
-//	/**
-//	 * Returns all scheduled items
-//	 * @return
-//	 * @throws SchedulerException
-//	 */
-//	public List<Schedule<Integer>> getScheduled() throws SchedulerException {
-//
-//		Set<TriggerKey> keys = scheduler.getTriggerKeys(GroupMatcher.anyTriggerGroup());
-//		return getSchedule(keys);
-//
-//	}
 	
 	private List<Schedule<Integer>> getSchedule(Set<TriggerKey> keys) throws SchedulerException{
 		List<Schedule<Integer>> scheduledPrograms = new ArrayList<>();
@@ -126,19 +90,6 @@ public class ScheduleManager {
 		}
 
 		return scheduledPrograms;
-	}
-	
-	private Class<? extends Job> getJobType(Schedulable.Type type){
-		switch (type) {
-		case PROGRAM:
-        	return ActivateProgram.class;
-		case ZONE:
-        	return ActivateZone.class;
-		default:
-			//TODO: exception
-			return null;
-        
-        }
 	}
 	
 	private JobDataMap generateJobData(Schedulable schedulable, Integer durationOverride) {
