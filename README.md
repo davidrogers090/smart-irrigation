@@ -47,3 +47,12 @@ The following technologies are used:
 * Quartz scheduler
 * JavaScript
 
+# To Do
+* Implement full UI
+	* Desktop and Mobile compatible
+* Weather lookup
+	* Checks weather to determine if scheduled items should be skipped
+	* Decision algorithm design
+* Settings
+* Security and remote access
+	* OAuth? Username/Password?
